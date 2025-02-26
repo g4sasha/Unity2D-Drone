@@ -7,14 +7,14 @@ namespace Gameplay
         [SerializeField] private GameObject _drone;
         [SerializeField] private SpringJoint2D _p1;
         [SerializeField] private SpringJoint2D _p2;
+        [SerializeField] private SpriteRenderer _grabIndicator;
 
         private Transform _target;
         private bool _catched;
-        private Rigidbody2D _droneRigidbody;
 
         private void Awake()
         {
-            _droneRigidbody = _drone.GetComponent<Rigidbody2D>();
+            _grabIndicator.color = Color.red;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -22,6 +22,11 @@ namespace Gameplay
             if (other.gameObject.tag == "Box")
             {
                 _target = other.transform;
+
+                if (!_catched)
+                {
+                    _grabIndicator.color = Color.green;
+                }
             }
         }
 
@@ -30,11 +35,21 @@ namespace Gameplay
             if (other.gameObject.tag == "Box")
             {
                 _target = null;
+
+                if (!_catched)
+                {
+                    _grabIndicator.color = Color.red;
+                }
             }
         }
 
         private void Update()
         {
+            if (_catched)
+            {
+                _grabIndicator.color = Color.blue;
+            }
+
             if (Input.GetKeyDown(KeyCode.E) && _target != null && !_catched)
             {
                 _p1.gameObject.SetActive(true);
