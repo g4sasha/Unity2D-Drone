@@ -1397,6 +1397,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 137407912185888092, guid: 8fe2555bfe9a05e4481d39b411c46783, type: 3}
   m_PrefabInstance: {fileID: 1829884617}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &180105428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 180105430}
+  - component: {fileID: 180105429}
+  m_Layer: 0
+  m_Name: Bootstrap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &180105429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180105428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7951372ec10dec46830f194f50e5f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initializableObjects:
+  - <Target>k__BackingField: {fileID: 264987361}
+    <Data>k__BackingField: {fileID: 11400000, guid: 35aad29b0c349f64fa6030d1dda5f095, type: 2}
+  - <Target>k__BackingField: {fileID: 662207019}
+    <Data>k__BackingField: {fileID: 264987361}
+--- !u!4 &180105430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180105428}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &182077727
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2287,6 +2336,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 137407912185888092, guid: 8fe2555bfe9a05e4481d39b411c46783, type: 3}
   m_PrefabInstance: {fileID: 182077727}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &264987360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 264987362}
+  - component: {fileID: 264987361}
+  m_Layer: 0
+  m_Name: InputHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &264987361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264987360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 194d655a164ef67438aa245444b34360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &264987362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264987360}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &266001397
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5858,14 +5951,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 662207014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a24cc852ae471d14fab1c8cf7ca615a1, type: 3}
+  m_Script: {fileID: 11500000, guid: d68e8503027d5a14eacca3067a77a5e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rigidbody: {fileID: 662207017}
-  _maxSpeed: 4.5
-  _maxAngle: 180
-  _rotateSpeed: 2
-  _recoveryRotateSpeed: 0.005
+  <Transform>k__BackingField: {fileID: 662207016}
+  <Rigidbody>k__BackingField: {fileID: 662207017}
+  <MaxSpeed>k__BackingField: 4.5
+  <MaxAngle>k__BackingField: 180
+  <RotateSpeed>k__BackingField: 2
+  <RecoveryRotateSpeed>k__BackingField: 0.005
 --- !u!4 &665533131 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 137407912185888092, guid: 8fe2555bfe9a05e4481d39b411c46783, type: 3}
@@ -19807,3 +19901,5 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 662207016}
   - {fileID: 1541354203}
+  - {fileID: 180105430}
+  - {fileID: 264987362}
