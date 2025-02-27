@@ -9,16 +9,16 @@ namespace InputSystem
 
         public override void Initialize(object keyMap)
         {
-            _keyMap = keyMap as KeyMap;
+            _keyMap = (KeyMap)keyMap;
         }
 
-        public override void HandleMovement()
+        public override Vector2 GetMoveDirection()
         {
             var moveX = Input.GetKey(_keyMap.MoveLeft) ? -1f : Input.GetKey(_keyMap.MoveRight) ? 1f : 0f;
             var moveY = Input.GetKey(_keyMap.TakeOff) ? 1f : 0f;
             var direction = new Vector2(moveX, moveY).normalized;
 
-            OnMove?.Invoke(direction);
+            return direction;
         }
     }
 }

@@ -1,38 +1,68 @@
-using Providers;
+using Core;
+using InputSystem;
 using UnityEngine;
 
 namespace Gameplay
 {
-    public class Drone
+    [RequireComponent(typeof(Rigidbody2D))]
+    public class Drone : MonoInitializable
     {
-        private DroneProvider _drone;
+        [SerializeField] private float _flightSpeed;
+        [SerializeField] private float _rotationIntensity;
+        [SerializeField] private float _stabilizationSpeed;
+        [SerializeField] private float _maxSpeed;
+        [SerializeField] private float _maxAngle;
 
-        public Drone(DroneProvider drone)
+        [SerializeField] private Rigidbody2D _rigidbody;
+
+        private InputHandler _input;
+
+        public override void Initialize(object data)
         {
-            _drone = drone;
+            _input = (InputHandler)data;
+        }
+
+        private void OnValidate()
+        {
+            if (_rigidbody == null)
+            {
+                _rigidbody = GetComponent<Rigidbody2D>();
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            var moveDirection = _input.GetMoveDirection();
+
+            Move(moveDirection);
+            Stabilize();
+            SpeedClamp();
+            Rotate();
         }
 
         public void Move(Vector2 direction)
         {
-            _drone.Rigidbody.velocity = new Vector2(direction.x * _drone.MaxSpeed * _drone.RotateSpeed, direction.y * _drone.MaxSpeed);
+            _rigidbody.AddForce(direction * _flightSpeed, ForceMode2D.Force);
         }
 
         public void Rotate()
         {
-            _drone.Transform.rotation = Quaternion.Euler(0f, 0f, -_drone.Rigidbody.velocity.x * _drone.MaxAngle * Time.fixedDeltaTime);
+            var angle = Mathf.Clamp(-_rigidbody.velocity.x * _rotationIntensity, -_maxAngle, _maxAngle);
+            transform.rotation = Quaternion.Euler(0f, 0f, angle);
         }
 
         public void Stabilize()
         {
-            _drone.Rigidbody.velocity = new Vector2(Mathf.Lerp(_drone.Rigidbody.velocity.x, 0f, _drone.RecoveryRotateSpeed), _drone.Rigidbody.velocity.y);
+            var speedX = Mathf.Lerp(_rigidbody.velocity.x, 0f, _stabilizationSpeed);
+            var speedY = _rigidbody.velocity.y;
+            _rigidbody.velocity = new Vector2(speedX, speedY);
         }
 
         public void SpeedClamp()
         {
-            _drone.Rigidbody.velocity = new Vector2(
-                Mathf.Clamp(_drone.Rigidbody.velocity.x, -_drone.MaxSpeed, _drone.MaxSpeed),
-                Mathf.Clamp(_drone.Rigidbody.velocity.y, -_drone.MaxSpeed, _drone.MaxSpeed)
-            );
+            var speedX = Mathf.Clamp(_rigidbody.velocity.x, -_maxSpeed, _maxSpeed);
+            var speedY = Mathf.Clamp(_rigidbody.velocity.y, -_maxSpeed, _maxSpeed);
+            _rigidbody.velocity = new Vector2(speedX, speedY);
         }
     }
 }

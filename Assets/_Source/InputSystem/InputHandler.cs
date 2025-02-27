@@ -4,19 +4,18 @@ using UnityEngine;
 
 namespace InputSystem
 {
-    public abstract class InputHandler : MonoInitializable, IInitializableData
+    public abstract class InputHandler : MonoInitializable
     {
-        public Action<Vector2> OnMove;
         public bool Enabled { get; set; } = true;
 
         private void Update()
         {
             if (Enabled)
             {
-                HandleMovement();
+                GetMoveDirection();
             }
         }
 
-        public abstract void HandleMovement();
+        public abstract Vector2 GetMoveDirection();
     }
 }
