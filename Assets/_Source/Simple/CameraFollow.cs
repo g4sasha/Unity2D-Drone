@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Gameplay
+namespace Simple
 {
-    public class CameraController : MonoBehaviour
+    public class CameraFollow : MonoBehaviour
     {
         [SerializeField] private Transform _target;
 

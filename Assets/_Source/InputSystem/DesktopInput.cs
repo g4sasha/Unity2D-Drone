@@ -1,24 +1,16 @@
-using Providers;
 using UnityEngine;
 
 namespace InputSystem
 {
-    public class DesktopInput : InputHandler
+    public class DesktopInput : IInputHandler
     {
-        private KeyMap _keyMap;
-
-        public override void Initialize(object keyMap)
+        public Vector2 GetMoveDirection()
         {
-            _keyMap = (KeyMap)keyMap;
-        }
+            var horizontal = Input.GetAxis("Horizontal");
+            var vertical = Input.GetAxis("Vertical");
+            var moveDirection = new Vector2(horizontal, vertical).normalized;
 
-        public override Vector2 GetMoveDirection()
-        {
-            var moveX = Input.GetKey(_keyMap.MoveLeft) ? -1f : Input.GetKey(_keyMap.MoveRight) ? 1f : 0f;
-            var moveY = Input.GetKey(_keyMap.TakeOff) ? 1f : 0f;
-            var direction = new Vector2(moveX, moveY).normalized;
-
-            return direction;
+            return moveDirection;
         }
     }
 }

@@ -1,103 +1,98 @@
-using UnityEngine;
+// using System;
+// using UnityEngine;
 
-namespace Gameplay
-{
-    public class Grabler : MonoBehaviour
-    {
-        [SerializeField] private GameObject _drone;
-        [SerializeField] private SpringJoint2D _p1;
-        [SerializeField] private SpringJoint2D _p2;
-        [SerializeField] private SpriteRenderer _grabIndicator;
-        [SerializeField] private LineRenderer _lineRenderer; // Добавляем LineRenderer
+// namespace Gameplay
+// {
+//     [RequireComponent(typeof(GrappleRope))]
+//     public class Grabler : MonoBehaviour
+//     {
+//         [field: SerializeField] public SpringJoint2D RightPoint { get; private set; }
+//         [field: SerializeField] public SpringJoint2D LeftPoint { get; private set; }
 
-        private Transform _target;
-        private Rigidbody2D _catchedObject;
-        private bool _catched;
+//         public event Action<GrabState> OnGrabStateChanged;
 
-        private void Awake()
-        {
-            _grabIndicator.color = Color.red;
+//         [SerializeField] private GameObject _drone;
 
-            // Настройка LineRenderer
-            _lineRenderer.positionCount = 4; // Две линии (p1 -> объект, p2 -> объект)
-            _lineRenderer.startWidth = 0.05f;
-            _lineRenderer.endWidth = 0.05f;
-            _lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-            _lineRenderer.startColor = Color.black;
-            _lineRenderer.endColor = Color.black;
-            _lineRenderer.enabled = false; // Скрываем линию в начале
-        }
+//         private Transform _target;
+//         private Rigidbody2D _catchedObject;
+//         private bool _catched;
+//         private GrappleRope _grappleRope;
 
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.gameObject.CompareTag("Box"))
-            {
-                _target = other.transform;
+//         private void Awake()
+//         {
+//             _grappleRope = GetComponent<GrappleRope>();
+//         }
 
-                if (!_catched)
-                {
-                    _grabIndicator.color = Color.green;
-                }
-            }
-        }
+//         private void OnTriggerEnter2D(Collider2D other)
+//         {
+//             if (other.gameObject.CompareTag("Box"))
+//             {
+//                 _target = other.transform;
+//                 OnGrabStateChanged?.Invoke(GrabState.CanGrabled);
+//             }
+//         }
 
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            if (other.gameObject.CompareTag("Box"))
-            {
-                _target = null;
+//         private void OnTriggerExit2D(Collider2D other)
+//         {
+//             if (other.gameObject.CompareTag("Box"))
+//             {
+//                 _target = null;
+//                 OnGrabStateChanged?.Invoke(GrabState.NotGrabled);
+//             }
+//         }
 
-                if (!_catched)
-                {
-                    _grabIndicator.color = Color.red;
-                }
-            }
-        }
+//         private void Update()
+//         {
+//             if (Input.GetKeyDown(KeyCode.E))
+//             {
+//                 if (!_catched && _target != null)
+//                 {
+//                     Grab();
+//                 }
+//                 else if (_catched)
+//                 {
+//                     Release();
+//                 }
+//             }
+//         }
 
-        private void Update()
-        {
-            if (_catched)
-            {
-                _grabIndicator.color = Color.blue;
-                UpdateRope(); // Обновляем верёвку
-            }
+//         private void FixedUpdate()
+//         {
+//             if (_catched)
+//             {
+//                 OnGrabStateChanged?.Invoke(GrabState.Grabled);
+//                 _grappleRope.UpdateRope(_catchedObject);
+//             }
+//         }
 
-            if (Input.GetKeyDown(KeyCode.E) && _target != null && !_catched)
-            {
-                _p1.gameObject.SetActive(true);
-                _p2.gameObject.SetActive(true);
-                _catchedObject = _target.GetComponent<Rigidbody2D>();
-                _p1.connectedBody = _catchedObject;
-                _p2.connectedBody = _catchedObject;
-                _target.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                _catchedObject.constraints = RigidbodyConstraints2D.FreezeRotation;
-                _catched = true;
-                _lineRenderer.enabled = true; // Включаем линию
-                return;
-            }
+//         private void Grab()
+//         {
+//             LeftPoint.gameObject.SetActive(true);
+//             RightPoint.gameObject.SetActive(true);
 
-            if (Input.GetKeyDown(KeyCode.E) && _catched)
-            {
-                _p1.gameObject.SetActive(false);
-                _p2.gameObject.SetActive(false);
-                _p1.connectedBody = null;
-                _p2.connectedBody = null;
-                _catchedObject.constraints = RigidbodyConstraints2D.None;
-                _catched = false;
-                _lineRenderer.enabled = false; // Отключаем линию
-                return;
-            }
-        }
+//             _catchedObject = _target.GetComponent<Rigidbody2D>();
+//             LeftPoint.connectedBody = _catchedObject;
+//             RightPoint.connectedBody = _catchedObject;
 
-        private void UpdateRope()
-        {
-            if (_catchedObject != null)
-            {
-                _lineRenderer.SetPosition(0, _p1.transform.position);
-                _lineRenderer.SetPosition(1, _catchedObject.position + Vector2.left * 0.375f + Vector2.down * 0.375f);
-                _lineRenderer.SetPosition(2, _catchedObject.position + Vector2.right * 0.375f + Vector2.down * 0.375f);
-                _lineRenderer.SetPosition(3, _p2.transform.position);
-            }
-        }
-    }
-}
+//             _catchedObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+//             _catchedObject.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+//             _catched = true;
+//             _grappleRope.SetActive(true);
+//         }
+
+//         private void Release()
+//         {
+//             LeftPoint.gameObject.SetActive(false);
+//             RightPoint.gameObject.SetActive(false);
+
+//             LeftPoint.connectedBody = null;
+//             RightPoint.connectedBody = null;
+
+//             _catchedObject.constraints = RigidbodyConstraints2D.None;
+//             _catchedObject = null;
+//             _catched = false;
+//             _grappleRope.SetActive(false);
+//         }
+//     }
+// }
