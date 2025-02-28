@@ -12,5 +12,7 @@ namespace InputSystem
 
             return moveDirection;
         }
+
+        public bool GetGrabActivation() => Input.GetKeyDown(KeyCode.E);
     }
 }

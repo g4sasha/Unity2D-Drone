@@ -5,6 +5,7 @@ namespace InputSystem
 {
     public interface IInputHandler : IService
     {
-        Vector2 GetMoveDirection();
+        public Vector2 GetMoveDirection();
+        public bool GetGrabActivation();
     }
 }
