@@ -1,23 +1,22 @@
+using InputSystem;
 using UnityEngine;
+using VContainer;
 
 namespace Core
 {
     public class Bootstrap : MonoBehaviour
     {
-        [SerializeField] private MonoInstaller[] _installers;
-        [SerializeField] private bool _initLogs;
+        private IInput _input;
 
-        private void Awake()
+        [Inject]
+        private void Construct(IInput input)
         {
-            foreach (var installer in _installers)
-            {
-                installer.Init();
+            _input = input;
+        }
 
-                if (_initLogs)
-                {
-                    Debug.Log($"{installer.name} initialized");
-                }
-            }
+        private void Start()
+        {
+            _input.Initialize();
         }
     }
 }
