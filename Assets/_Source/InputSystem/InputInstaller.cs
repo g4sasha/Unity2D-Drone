@@ -2,7 +2,7 @@ using Core;
 
 namespace InputSystem
 {
-    public class InputInstaller : MonoInitializable
+    public class InputInstaller : MonoInstaller
     {
         public override void Init()
         {

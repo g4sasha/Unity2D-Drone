@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Drone
 {
-    public class DroneInstaller : MonoInitializable
+    public class DroneInstaller : MonoInstaller
     {
         [field: SerializeField] public Rigidbody2D Rigidbody { get; private set; }
         [field: SerializeField] public float FlightSpeed { get; private set; }

@@ -4,22 +4,24 @@ using UnityEngine;
 
 namespace Drone
 {
-    public class GrablerInstaller : MonoInitializable
+    public class CatcherInstaller : MonoInstaller
     {
+        public Catcher Catcher => _catcher;
+
         [field: SerializeField] public SpringJoint2D LeftPoint { get; private set; }
         [field: SerializeField] public SpringJoint2D RightPoint { get; private set; }
         [field: SerializeField] public string PickTag { get; private set; }
 
-        private Grabler _grabler;
-        private GrablerController _controller;
+        private Catcher _catcher;
+        private CatcherController _controller;
 
         public override void Init()
         {
             var services = ServiceLocator.Instance;
             var input = services.Get<IInputHandler>();
 
-            _grabler = new Grabler(this);
-            _controller = new GrablerController(input, _grabler);
+            _catcher = new Catcher(this);
+            _controller = new CatcherController(input, _catcher);
         }
 
         private void Update()
@@ -46,30 +48,30 @@ namespace Drone
         }
     }
 
-    public class GrablerController
+    public class CatcherController
     {
         private readonly IInputHandler _input;
-        private readonly Grabler _grabler;
+        private readonly Catcher _catcher;
         private bool _canGrab;
         private GameObject _currentTarget;
 
-        public GrablerController(IInputHandler input, Grabler grabler)
+        public CatcherController(IInputHandler input, Catcher catcher)
         {
             _input = input;
-            _grabler = grabler;
+            _catcher = catcher;
         }
 
         public void Step()
         {
             if (_input.GetGrabActivation())
             {
-                if (!_grabler.Catched && _canGrab && _currentTarget != null)
+                if (!_catcher.Caught && _canGrab && _currentTarget != null)
                 {
-                    _grabler.Grab(_currentTarget);
+                    _catcher.Grab(_currentTarget);
                 }
-                else if (_grabler.Catched)
+                else if (_catcher.Caught)
                 {
-                    _grabler.Release();
+                    _catcher.Release();
                 }
             }
         }
@@ -85,14 +87,14 @@ namespace Drone
         }
     }
 
-    public class Grabler
+    public class Catcher
     {
-        public bool Catched { get; private set; }
+        public bool Caught { get; private set; }
 
-        private readonly GrablerInstaller _installer;
-        private GameObject _catchedObject;
+        private readonly CatcherInstaller _installer;
+        private GameObject _caughtObject;
 
-        public Grabler(GrablerInstaller installer)
+        public Catcher(CatcherInstaller installer)
         {
             _installer = installer;
             _installer.LeftPoint.gameObject.SetActive(false);
@@ -101,13 +103,13 @@ namespace Drone
 
         public void Grab(GameObject target)
         {
-            Catched = true;
-            _catchedObject = target;
+            Caught = true;
+            _caughtObject = target;
 
             _installer.LeftPoint.gameObject.SetActive(true);
             _installer.RightPoint.gameObject.SetActive(true);
 
-            var rb = _catchedObject.GetComponent<Rigidbody2D>();
+            var rb = _caughtObject.GetComponent<Rigidbody2D>();
             _installer.LeftPoint.connectedBody = rb;
             _installer.RightPoint.connectedBody = rb;
 
@@ -116,7 +118,7 @@ namespace Drone
 
         public void Release()
         {
-            Catched = false;
+            Caught = false;
 
             _installer.LeftPoint.gameObject.SetActive(false);
             _installer.RightPoint.gameObject.SetActive(false);
@@ -124,12 +126,22 @@ namespace Drone
             _installer.LeftPoint.connectedBody = null;
             _installer.RightPoint.connectedBody = null;
 
-            if (_catchedObject != null)
+            if (_caughtObject != null)
             {
-                var rb = _catchedObject.GetComponent<Rigidbody2D>();
-                rb.constraints = RigidbodyConstraints2D.None;
+                var rigidbody = _caughtObject.GetComponent<Rigidbody2D>();
+                rigidbody.constraints = RigidbodyConstraints2D.None;
             }
-            _catchedObject = null;
+            _caughtObject = null;
+        }
+
+        public bool TryGetCaught(out Rigidbody2D caught)
+        {
+            if (_caughtObject.TryGetComponent(out caught))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

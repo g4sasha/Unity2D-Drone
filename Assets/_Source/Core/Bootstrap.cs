@@ -4,14 +4,19 @@ namespace Core
 {
     public class Bootstrap : MonoBehaviour
     {
-        [SerializeField] private MonoInitializable[] _initializables;
+        [SerializeField] private MonoInstaller[] _installers;
+        [SerializeField] private bool _initLogs;
 
         private void Awake()
         {
-            foreach (var initializable in _initializables)
+            foreach (var installer in _installers)
             {
-                initializable.Init();
-                Debug.Log($"{initializable.name} initialized");
+                installer.Init();
+
+                if (_initLogs)
+                {
+                    Debug.Log($"{installer.name} initialized");
+                }
             }
         }
     }
