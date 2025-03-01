@@ -1,3 +1,4 @@
+using System;
 using InputSystem;
 using UnityEngine;
 using VContainer;
@@ -6,6 +7,8 @@ namespace Gameplay
 {
     public class Catcher : MonoBehaviour
     {
+        public event Action<CaughtState> OnStateChanged;
+
         [SerializeField] private SpringJoint2D[] _attachmentPoints;
         [SerializeField] private string _matchingTag;
 
@@ -39,6 +42,11 @@ namespace Gameplay
             if (other.gameObject.CompareTag(_matchingTag))
             {
                 _target = other.gameObject;
+
+                if (!_isCaught)
+                {
+                    OnStateChanged?.Invoke(CaughtState.CanCaught);
+                }
             }
         }
 
@@ -47,6 +55,11 @@ namespace Gameplay
             if (other.gameObject.CompareTag(_matchingTag))
             {
                 _target = null;
+
+                if (!_isCaught)
+                {
+                    OnStateChanged?.Invoke(CaughtState.CannotCaught);
+                }
             }
         }
 
@@ -65,6 +78,7 @@ namespace Gameplay
         private void Catch(GameObject target)
         {
             _isCaught = true;
+            OnStateChanged?.Invoke(CaughtState.Caught);
             var targetRigidbody = target.GetComponent<Rigidbody2D>();
 
             SetPointsActive(true);
