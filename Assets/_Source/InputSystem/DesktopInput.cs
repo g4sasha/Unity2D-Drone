@@ -1,25 +1,13 @@
-using System;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace InputSystem
 {
-    public class DesktopInput : IInput
+    public class DesktopInput : InputHandler
     {
-        public event Action<Vector2> OnMove;
-        public event Action OnCatch;
-
-        public void Initialize() => StartHandling().Forget();
-
-        private async UniTaskVoid StartHandling()
+        private void Update()
         {
-            while (Application.isPlaying)
-            {
-                HandleMovement();
-                HandleCatch();
-
-                await UniTask.Yield(PlayerLoopTiming.Update);
-            }
+            HandleMovement();
+            HandleCatch();
         }
 
         private void HandleMovement()

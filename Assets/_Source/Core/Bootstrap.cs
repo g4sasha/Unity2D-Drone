@@ -1,22 +1,17 @@
 using InputSystem;
 using UnityEngine;
 using VContainer;
+using VContainer.Unity;
 
 namespace Core
 {
-    public class Bootstrap : MonoBehaviour
+    public class Bootstrap : LifetimeScope
     {
-        private IInput _input;
+        [SerializeField] private DesktopInput _input;
 
-        [Inject]
-        private void Construct(IInput input)
+        protected override void Configure(IContainerBuilder builder)
         {
-            _input = input;
-        }
-
-        private void Start()
-        {
-            _input.Initialize();
+            builder.RegisterComponent<InputHandler>(_input);
         }
     }
 }

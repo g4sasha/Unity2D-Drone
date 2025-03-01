@@ -13,10 +13,10 @@ namespace Gameplay
         [SerializeField] private float _maxSpeed;
         [SerializeField] private float _maxAngle;
 
-        private IInput _input;
+        private InputHandler _input;
 
         [Inject]
-        private void Construct(IInput input)
+        private void Construct(InputHandler input)
         {
             _input = input;
         }

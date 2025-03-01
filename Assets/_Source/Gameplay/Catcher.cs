@@ -9,12 +9,12 @@ namespace Gameplay
         [SerializeField] private SpringJoint2D[] _attachmentPoints;
         [SerializeField] private string _matchingTag;
 
-        private IInput _input;
+        private InputHandler _input;
         private GameObject _target;
         private bool _isCaught;
 
         [Inject]
-        private void Construct(IInput input)
+        private void Construct(InputHandler input)
         {
             _input = input;
         }
