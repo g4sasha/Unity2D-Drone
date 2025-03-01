@@ -16,7 +16,7 @@ namespace Gameplay
         private InputHandler _input;
 
         [Inject]
-        private void Construct(InputHandler input)
+        protected void Construct(InputHandler input)
         {
             _input = input;
         }
@@ -40,7 +40,7 @@ namespace Gameplay
 
         private void Move(Vector2 direction)
         {
-            _rigidbody.AddForce(direction * _flightSpeed * Time.deltaTime, ForceMode2D.Force);
+            _rigidbody.AddForce(direction * _flightSpeed * Time.deltaTime * 1000f, ForceMode2D.Force);
         }
 
         private void RotateBySpeed()

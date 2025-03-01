@@ -15,7 +15,7 @@ namespace Gameplay
         private Catcher _catcher;
 
         [Inject]
-        private void Construct(Catcher catcher)
+        protected void Construct(Catcher catcher)
         {
             _catcher = catcher;
         }

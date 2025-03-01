@@ -8,16 +8,18 @@ namespace Gameplay
     public class Catcher : MonoBehaviour
     {
         public event Action<CaughtState> OnStateChanged;
+        public bool IsCaught => _isCaught;
+        public Cargo CurrentCargo => _cargo;
 
         [SerializeField] private SpringJoint2D[] _attachmentPoints;
         [SerializeField] private string _matchingTag;
 
         private InputHandler _input;
-        private GameObject _target;
+        private Cargo _cargo;
         private bool _isCaught;
 
         [Inject]
-        private void Construct(InputHandler input)
+        protected void Construct(InputHandler input)
         {
             _input = input;
         }
@@ -39,9 +41,10 @@ namespace Gameplay
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            // TODO: Fix (цe need a condition that we haven't caught the cargo yet)
             if (other.gameObject.CompareTag(_matchingTag))
             {
-                _target = other.gameObject;
+                _cargo = other.GetComponent<Cargo>();
 
                 if (!_isCaught)
                 {
@@ -54,7 +57,7 @@ namespace Gameplay
         {
             if (other.gameObject.CompareTag(_matchingTag))
             {
-                _target = null;
+                _cargo = null;
 
                 if (!_isCaught)
                 {
@@ -65,40 +68,52 @@ namespace Gameplay
 
         private void OnCatch()
         {
-            if (_target && !_isCaught)
+            if (_cargo && !_isCaught)
             {
-                Catch(_target);
+                Catch(_cargo);
             }
             else
             {
                 Release();
+
+                CaughtState nextState;
+
+                if (_cargo)
+                {
+                    // TODO: Fix (not working)
+                    nextState = CaughtState.CanCaught;
+                }
+                else
+                {
+                    nextState = CaughtState.CannotCaught;
+                }
+
+                OnStateChanged?.Invoke(nextState);
             }
         }
 
-        private void Catch(GameObject target)
+        private void Catch(Cargo cargo)
         {
             _isCaught = true;
             OnStateChanged?.Invoke(CaughtState.Caught);
-            var targetRigidbody = target.GetComponent<Rigidbody2D>();
 
             SetPointsActive(true);
-            SetPointsConnectedBody(targetRigidbody);
+            SetPointsConnectedBody(cargo.Rigidbody);
 
-            targetRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-            target.transform.rotation = Quaternion.identity;
+            cargo.Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            cargo.transform.rotation = Quaternion.identity;
         }
 
         private void Release()
         {
             _isCaught = false;
 
-            if (_target)
+            if (_cargo)
             {
-                var rigidbody = _target.GetComponent<Rigidbody2D>();
-                rigidbody.constraints = RigidbodyConstraints2D.None;
+                _cargo.Rigidbody.constraints = RigidbodyConstraints2D.None;
             }
 
-            _target = null;
+            _cargo = null;
             SetPointsActive(false);
         }
 

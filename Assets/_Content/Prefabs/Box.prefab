@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3960315752046218356}
   m_Layer: 0
-  m_Name: GrabPointRight
+  m_Name: AttachmentRight
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -41,9 +41,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5248641153094209081}
   m_Layer: 0
-  m_Name: GrabPointLeft
+  m_Name: AttachmentLeft
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 1124965249280863587}
   - component: {fileID: 6124282161706632691}
   - component: {fileID: 5354841325675953036}
+  - component: {fileID: 5728360576957911443}
   m_Layer: 0
   m_Name: Box
   m_TagString: Box
@@ -222,3 +223,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5728360576957911443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8676921391785823650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5021444dba03cd4fa7f1d61df855af7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Rigidbody>k__BackingField: {fileID: 5354841325675953036}
+  _attachmentPoints:
+  - {fileID: 5248641153094209081}
+  - {fileID: 3960315752046218356}

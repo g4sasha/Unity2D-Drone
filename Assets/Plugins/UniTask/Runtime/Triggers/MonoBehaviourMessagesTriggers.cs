@@ -2199,8 +2199,12 @@ namespace Cysharp.Threading.Tasks.Triggers
     {
 #pragma warning disable UNT0006 // Incorrect message signature
 
+#pragma warning disable IDE0051 // Remove unused private members
+
         void OnParticleUpdateJobScheduled(UnityEngine.ParticleSystemJobs.ParticleSystemJobData particles)
+#pragma warning restore IDE0051 // Remove unused private members
 #pragma warning restore UNT0006 // Incorrect message signature
+
 
         {
             RaiseEvent((particles));

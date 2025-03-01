@@ -375,13 +375,14 @@ GameObject:
   m_Component:
   - component: {fileID: 46253434}
   - component: {fileID: 46253435}
+  - component: {fileID: 46253436}
   m_Layer: 0
   m_Name: Rope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &46253434
 Transform:
   m_ObjectHideFlags: 0
@@ -390,12 +391,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 46253433}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 662207016}
+  m_Father: {fileID: 1972279841}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &46253435
 LineRenderer:
@@ -501,6 +502,22 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &46253436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46253433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2595ca25c9b11f44ca23683fd0e02687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lineRenderer: {fileID: 46253435}
+  _attachmentPoints:
+  - {fileID: 922192459}
+  - {fileID: 1720350398}
 --- !u!4 &50875124 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 137407912185888092, guid: 8fe2555bfe9a05e4481d39b411c46783, type: 3}
@@ -5958,7 +5975,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1972279841}
-  - {fileID: 46253434}
   - {fileID: 2076430997}
   m_Father: {fileID: 179755684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8663,7 +8679,7 @@ GameObject:
   - component: {fileID: 922192461}
   - component: {fileID: 922192460}
   m_Layer: 0
-  m_Name: LeftGrabler
+  m_Name: AttachmentLeft
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -15546,7 +15562,7 @@ GameObject:
   - component: {fileID: 1720350400}
   - component: {fileID: 1720350399}
   m_Layer: 0
-  m_Name: RightGrabler
+  m_Name: AttachmentRight
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -17989,6 +18005,7 @@ Transform:
   m_Children:
   - {fileID: 922192459}
   - {fileID: 1720350398}
+  - {fileID: 46253434}
   m_Father: {fileID: 662207016}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &1972279842
