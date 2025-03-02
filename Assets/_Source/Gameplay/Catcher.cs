@@ -16,6 +16,7 @@ namespace Gameplay
 
         private InputHandler _input;
         private Cargo _cargo;
+        private Cargo _lastCargo;
         private bool _isCaught;
 
         [Inject]
@@ -41,8 +42,7 @@ namespace Gameplay
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            // TODO: Fix (цe need a condition that we haven't caught the cargo yet)
-            if (other.gameObject.CompareTag(_matchingTag))
+            if (other.gameObject.CompareTag(_matchingTag) && !_isCaught)
             {
                 _cargo = other.GetComponent<Cargo>();
 
@@ -75,26 +75,13 @@ namespace Gameplay
             else
             {
                 Release();
-
-                CaughtState nextState;
-
-                if (_cargo)
-                {
-                    // TODO: Fix (not working)
-                    nextState = CaughtState.CanCaught;
-                }
-                else
-                {
-                    nextState = CaughtState.CannotCaught;
-                }
-
-                OnStateChanged?.Invoke(nextState);
             }
         }
 
         private void Catch(Cargo cargo)
         {
             _isCaught = true;
+            _lastCargo = cargo;
             OnStateChanged?.Invoke(CaughtState.Caught);
 
             SetPointsActive(true);
@@ -107,13 +94,17 @@ namespace Gameplay
         private void Release()
         {
             _isCaught = false;
+            _lastCargo.Rigidbody.constraints = RigidbodyConstraints2D.None;
 
             if (_cargo)
             {
-                _cargo.Rigidbody.constraints = RigidbodyConstraints2D.None;
+                OnStateChanged?.Invoke(CaughtState.CanCaught);
+            }
+            else
+            {
+                OnStateChanged?.Invoke(CaughtState.CannotCaught);
             }
 
-            _cargo = null;
             SetPointsActive(false);
         }
 
