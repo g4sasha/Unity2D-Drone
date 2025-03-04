@@ -1,6 +1,5 @@
 ﻿#pragma warning disable CS1591
 
-using Cysharp.Threading.Tasks.Internal;
 using System;
 using System.Linq;
 using System.Diagnostics;
@@ -166,7 +165,11 @@ namespace Cysharp.Threading.Tasks.CompilerServices
             TaskPool.RegisterSizeGetter(typeof(AsyncUniTask<TStateMachine>), () => pool.Size);
         }
 
+#pragma warning disable IDE0051 // Remove unused private members
+
         void Return()
+#pragma warning restore IDE0051 // Remove unused private members
+
         {
             TaskTracker.RemoveTracking(this);
             core.Reset();
@@ -289,7 +292,11 @@ namespace Cysharp.Threading.Tasks.CompilerServices
             TaskPool.RegisterSizeGetter(typeof(AsyncUniTask<TStateMachine, T>), () => pool.Size);
         }
 
+#pragma warning disable IDE0051 // Remove unused private members
+
         void Return()
+#pragma warning restore IDE0051 // Remove unused private members
+
         {
             TaskTracker.RemoveTracking(this);
             core.Reset();
